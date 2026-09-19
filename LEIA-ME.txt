@@ -1,16 +1,34 @@
-TAF KIDS v2.5.1 — HOTFIX CORS
+TAF KIDS v3.0.0 — RECONSTRUÇÃO DA INTERFACE
 
-CORREÇÃO
-- Corrige o "Failed to fetch" do login.
-- Todas as respostas JSON passam a receber CORS automaticamente.
-- Origin autorizado: https://leonardogda-gif.github.io
-- OPTIONS rejeita origins não autorizados.
-- Cache do PWA avançado para 2.5.1.
+A v3.0 abandona o grande mockup antigo. O princípio agora é:
+SE ESTÁ CLICÁVEL, FUNCIONA. O que ainda não existe aparece desabilitado como “Em desenvolvimento”.
 
-PUBLICAÇÃO
-1. Não há nova migration.
-2. Publique worker.js no Cloudflare.
-3. Abra /api/health e confirme version 2.5.1.
-4. No GitHub, substitua sw.js e version.json.
-5. O index.html é o mesmo da v2.5 e está incluído no pacote completo.
-6. Faça uma recarga forçada após a publicação.
+FUNCIONAL:
+- Login/logout e restauração de sessão.
+- Alternância Super ADM <-> igreja.
+- Super ADM: visão geral, lista de igrejas, detalhe/status/assinatura, saúde da plataforma.
+- Igreja: painel real.
+- Salas: listar, criar e editar.
+- Cultos/eventos: listar, criar, abrir, encerrar e cancelar.
+- Escalas: listar e criar escala básica ligada a culto.
+- Estados vazios reais, sem Sofia Andrade ou outros dados fictícios.
+- Navegação centralizada, sem dezenas de onclick inline com IDs dinâmicos.
+- Renderização de dados usando textContent/DOM.
+
+DESABILITADO E CLARAMENTE IDENTIFICADO:
+- Crianças & famílias
+- Devocionais
+- Tela de chamada
+- Configurações
+- Comunicados do Super ADM
+- Totem/etiqueta/check-in
+
+PUBLICAÇÃO:
+1. Não há nova migration obrigatória para a v3.0.
+2. Publique worker.js.
+3. Confirme /api/health = 3.0.0.
+4. No GitHub substitua index.html, sw.js, manifest.webmanifest e version.json.
+5. Faça Ctrl+F5 uma vez.
+
+SEGURANÇA:
+Mantém o hardening da v2.5.1: rotas bootstrap públicas removidas, CORS restrito, rate-limit de login, validações, church_id obrigatório, auditoria das novas operações e respostas 500 sem detail.

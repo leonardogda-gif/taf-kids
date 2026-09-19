@@ -51,10 +51,37 @@
   .navlink-light{display:flex; align-items:center; gap:12px; padding:11px 16px; border-radius:10px; font-size:14px; font-weight:600; color:var(--ink-soft);}
   .navlink-light.active{background:var(--primary-tint); color:var(--primary);}
   input:focus{outline:2px solid var(--primary); outline-offset:1px;}
-  .stage-label{display:none !important;}
+
+  /* Taf Kids app real */
+  .topbar{display:none!important;}
+  .stage{padding:0!important; min-height:100vh; gap:0!important;}
+  .stage-label{display:none!important;}
+  .frame{width:100%!important; min-height:100vh!important; height:auto!important; border-radius:0!important; box-shadow:none!important;}
+  #s-light{display:none!important;}
+  .auth-message{display:none; padding:11px 13px; border-radius:10px; font-size:13px; line-height:1.4;}
+  .auth-message.error{display:block; background:var(--alert-bg); color:var(--alert);}
+  .auth-message.ok{display:block; background:var(--ok-bg); color:var(--ok);}
+  button:disabled{opacity:.6; cursor:not-allowed;}
+  @media(max-width:820px){#s-login .login-brand-panel{display:none!important;} #s-login .login-main{padding:20px!important;} #s-login .login-card{width:min(100%,440px)!important; padding:30px 24px!important;}}
 </style>
 </head>
 <body>
+
+<div class="topbar">
+  <div class="brandmark">
+    <div class="logo-lockup" style="width:150px; height:38px;"></div>
+    <span class="brand-note">· prévia clicável</span>
+  </div>
+  <div class="tabs">
+    <button class="tab active" data-target="s-login">Login</button>
+    <button class="tab" data-target="s-dashboard">Painel</button>
+    <button class="tab" data-target="s-escalas">Escalas</button>
+    <button class="tab" data-target="s-kiosk">Totem de check-in</button>
+    <button class="tab" data-target="s-etiqueta">Etiqueta</button>
+    <button class="tab" data-target="s-chamada">Tela de chamada</button>
+    <button class="tab" data-target="s-light">Painel · layout claro (alt.)</button>
+  </div>
+</div>
 
 <div class="stage">
 
@@ -78,45 +105,29 @@
   </div>
 
   <div id="s-login" class="screen">
-    <div class="stage-label">Desktop · 1280 × 800 · Login do voluntário/admin</div>
-    <div class="frame" style="width:1280px; height:800px; display:flex;">
-      <div style="width:480px; background:var(--primary); padding:56px; display:flex; flex-direction:column; justify-content:space-between; color:#FBF7F0;">
+    <div class="frame" style="display:flex;">
+      <div class="login-brand-panel" style="width:480px; background:var(--primary); padding:56px; display:flex; flex-direction:column; justify-content:space-between; color:#FBF7F0;">
         <div style="display:flex; align-items:center; gap:12px;">
           <div class="badge-chip" style="width:40px; height:40px;"><div class="icon-mark" style="width:26px; height:24px;"></div></div>
           <div style="font-family:'Fraunces',serif; font-size:22px; font-weight:600;">Taf Kids</div>
         </div>
         <div style="display:flex; flex-direction:column; gap:20px;">
           <h1 style="font-size:40px; line-height:1.2; font-weight:600;">Cuidado e segurança para cada criança, do check-in ao culto.</h1>
-          <p style="color:#CFE3E0; font-size:16px; line-height:1.6; max-width:380px; margin:0;">Check-in com QR code, escalas de voluntários, presença e devocionais — pronto para qualquer igreja.</p>
+          <p style="color:#CFE3E0; font-size:16px; line-height:1.6; max-width:380px; margin:0;">Check-in, equipes, presença e comunicação em um só lugar.</p>
         </div>
-        <div>
-          <div style="height:1px; background:rgba(255,255,255,0.2); margin-bottom:14px;"></div>
-          <div style="color:#9FC4C1; font-size:13px;">Igreja Comunidade Viva · v1.0</div>
-        </div>
+        <div><div style="height:1px; background:rgba(255,255,255,.2); margin-bottom:14px;"></div><div style="color:#9FC4C1; font-size:13px;">Desenvolvido por Taf Kids</div></div>
       </div>
-      <div style="flex:1; display:flex; align-items:center; justify-content:center;">
-        <div style="width:420px; background:var(--surface); border-radius:20px; border:1px solid var(--border); padding:48px; display:flex; flex-direction:column; gap:24px;">
-          <div>
-            <h2 style="font-size:26px;">Portal do Voluntário</h2>
-            <p style="margin:8px 0 0; color:var(--ink-soft); font-size:14px; line-height:1.5;">Acesse para gerenciar escalas, presença e turmas.</p>
-          </div>
-          <div style="display:flex; flex-direction:column; gap:16px;">
-            <label style="display:flex; flex-direction:column; gap:6px;">
-              <span style="font-size:13px; font-weight:600;">E-mail</span>
-              <input value="voluntario@igreja.com" style="height:46px; border-radius:10px; border:1px solid var(--border); padding:0 14px; font-size:14px; background:var(--bg);">
-            </label>
-            <label style="display:flex; flex-direction:column; gap:6px;">
-              <span style="font-size:13px; font-weight:600;">Senha</span>
-              <input type="password" value="" style="height:46px; border-radius:10px; border:1px solid var(--border); padding:0 14px; font-size:14px; background:var(--bg);">
-            </label>
-            <div style="text-align:right;"><a href="#" style="font-size:13px; font-weight:600; color:var(--accent-dark);">Esqueci minha senha</a></div>
-          </div>
-          <button onclick="devLogin()" style="width:100%; height:50px; border-radius:10px; border:none; background:var(--accent); color:#fff; font-size:15px; font-weight:700;">Entrar</button>
-          <div style="display:flex; align-items:center; gap:12px;">
-            <div style="flex:1; height:1px; background:var(--border);"></div><span style="font-size:12px; color:#A69C8C;">ou</span><div style="flex:1; height:1px; background:var(--border);"></div>
-          </div>
-          <button onclick="showScreen('s-kiosk')" style="width:100%; height:50px; border-radius:10px; border:1.5px solid var(--primary); background:#fff; color:var(--primary); font-size:15px; font-weight:700;">Abrir totem de check-in</button>
-        </div>
+      <div class="login-main" style="flex:1; display:flex; align-items:center; justify-content:center; padding:36px;">
+        <form id="loginForm" class="login-card" style="width:420px; background:var(--surface); border-radius:20px; border:1px solid var(--border); padding:48px; display:flex; flex-direction:column; gap:22px;">
+          <div><h2 style="font-size:26px;">Entrar no Taf Kids</h2><p style="margin:8px 0 0; color:var(--ink-soft); font-size:14px; line-height:1.5;">Use sua conta para acessar sua igreja e suas funções.</p></div>
+          <div id="loginMessage" class="auth-message"></div>
+          <label style="display:flex; flex-direction:column; gap:6px;"><span style="font-size:13px; font-weight:600;">E-mail</span><input id="loginEmail" type="email" autocomplete="username" required style="height:46px; border-radius:10px; border:1px solid var(--border); padding:0 14px; font-size:14px; background:var(--bg);"></label>
+          <label style="display:flex; flex-direction:column; gap:6px;"><span style="font-size:13px; font-weight:600;">Senha</span><input id="loginPassword" type="password" autocomplete="current-password" required style="height:46px; border-radius:10px; border:1px solid var(--border); padding:0 14px; font-size:14px; background:var(--bg);"></label>
+          <div style="text-align:right;"><span style="font-size:13px; color:var(--ink-soft);">Recuperação de senha será habilitada na próxima etapa.</span></div>
+          <button id="loginSubmit" type="submit" style="width:100%; height:50px; border-radius:10px; border:none; background:var(--accent); color:#fff; font-size:15px; font-weight:700;">Entrar</button>
+          <div style="display:flex; align-items:center; gap:12px;"><div style="flex:1; height:1px; background:var(--border);"></div><span style="font-size:12px; color:#A69C8C;">ou</span><div style="flex:1; height:1px; background:var(--border);"></div></div>
+          <button type="button" onclick="showScreen('s-kiosk')" style="width:100%; height:50px; border-radius:10px; border:1.5px solid var(--primary); background:#fff; color:var(--primary); font-size:15px; font-weight:700;">Abrir totem de check-in</button>
+        </form>
       </div>
     </div>
   </div>
@@ -140,13 +151,13 @@
         </div>
         <div style="margin-top:auto; display:flex; align-items:center; gap:10px; padding:12px 8px; border-top:1px solid rgba(255,255,255,0.15);">
           <div style="width:34px; height:34px; border-radius:50%; background:var(--accent); color:var(--primary-dark); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700;">MC</div>
-          <div style="flex:1;"><div style="color:#fff; font-size:13px; font-weight:700;">Acesso de desenvolvimento</div><div style="color:#9FC4C1; font-size:11px;">Administrador</div></div><button onclick="logout()" style="border:0;background:transparent;color:#fff;font-size:12px;font-weight:700;padding:6px;">Sair</button>
+          <div><div style="color:#fff; font-size:13px; font-weight:700;"> <span id="dashboardUserName">Usuário</span></div><div id="dashboardUserRole" style="color:#9FC4C1; font-size:11px;">—</div></div>
         </div>
       </div>
       <div style="flex:1; padding:32px 36px; display:flex; flex-direction:column; gap:24px;">
         <div style="display:flex; align-items:center; justify-content:space-between;">
-          <div><h1 style="font-size:24px;">Bom domingo, Marina</h1><p style="margin:4px 0 0; color:var(--ink-soft); font-size:14px;">Culto das 10h · 14 de setembro de 2026</p></div>
-          <button onclick="showScreen('s-kiosk')" style="height:44px; padding:0 20px; border-radius:10px; border:none; background:var(--accent); color:#fff; font-weight:700; font-size:14px;">+ Abrir totem de check-in</button>
+          <div><h1 style="font-size:24px;">Olá, <span id="dashboardGreetingName">usuário</span></h1><p style="margin:4px 0 0; color:var(--ink-soft); font-size:14px;">Culto das 10h · 14 de setembro de 2026</p></div>
+          <div style="display:flex;gap:10px;"><button onclick="showScreen('s-kiosk')" style="height:44px; padding:0 20px; border-radius:10px; border:none; background:var(--accent); color:#fff; font-weight:700; font-size:14px;">+ Abrir totem de check-in</button><button onclick="logout()" style="height:44px; padding:0 16px; border-radius:10px; border:1px solid var(--border); background:var(--surface); color:var(--ink); font-weight:700; font-size:14px;">Sair</button></div>
         </div>
         <div style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px;">
           <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px;">
@@ -384,7 +395,7 @@
       </div>
       <div style="flex:1; padding:32px 36px; display:flex; flex-direction:column; gap:24px;">
         <div style="display:flex; align-items:center; justify-content:space-between;">
-          <div><h1 style="font-size:24px;">Bom domingo, Marina</h1><p style="margin:4px 0 0; color:var(--ink-soft); font-size:14px;">Culto das 10h · 14 de setembro de 2026</p></div>
+          <div><h1 style="font-size:24px;">Olá, <span id="dashboardGreetingName">usuário</span></h1><p style="margin:4px 0 0; color:var(--ink-soft); font-size:14px;">Culto das 10h · 14 de setembro de 2026</p></div>
           <button style="height:44px; padding:0 20px; border-radius:10px; border:none; background:var(--primary); color:#fff; font-weight:700; font-size:14px;">+ Abrir totem de check-in</button>
         </div>
         <div style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px;">
@@ -419,103 +430,111 @@
 
 <script>
   const API_BASE = 'https://taf-kids-api.leonardo-gda.workers.dev';
+  const TOKEN_KEY = 'tafKidsSessionToken';
+  let currentUser = null;
   let currentChurch = null;
 
-  function slugify(value){
-    return value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-  }
-
-  async function initializeApp(){
-    try {
-      const response = await fetch(`${API_BASE}/api/churches`);
-      const data = await response.json();
-      if (!response.ok || !data.ok) throw new Error(data.error || 'Não foi possível consultar a API.');
-      if (data.churches && data.churches.length){
-        currentChurch = data.churches[0];
-        localStorage.setItem('tafKidsChurchId', currentChurch.id);
-        if (sessionStorage.getItem('tafKidsDevSession') === '1') {
-          showScreen('s-dashboard', true);
-        } else {
-          showScreen('s-login', true);
-        }
-      } else {
-        showScreen('s-setup');
-      }
-    } catch (error) {
-      showScreen('s-setup');
-      showSetupMessage('Não foi possível conectar ao Taf Kids API. Verifique o Worker e tente novamente.', true);
-    }
-  }
-
-  function showSetupMessage(message, isError=false){
-    const box = document.getElementById('setupMessage');
-    box.textContent = message;
-    box.style.display = 'block';
-    box.style.background = isError ? 'var(--alert-bg)' : 'var(--ok-bg)';
-    box.style.color = isError ? 'var(--alert)' : 'var(--ok)';
-  }
-
-  document.getElementById('churchSetupForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const button = document.getElementById('setupSubmit');
-    const name = document.getElementById('setupChurchName').value.trim();
-    const email = document.getElementById('setupChurchEmail').value.trim();
-    const phone = document.getElementById('setupChurchPhone').value.trim();
-    if (!name) return showSetupMessage('Informe o nome da igreja.', true);
-    button.disabled = true;
-    button.textContent = 'Criando...';
-    try {
-      const response = await fetch(`${API_BASE}/api/churches`, {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({name, slug:slugify(name), email, phone})
-      });
-      const data = await response.json();
-      if (!response.ok || !data.ok) throw new Error(data.error || 'Não foi possível cadastrar a igreja.');
-      currentChurch = data.church;
-      localStorage.setItem('tafKidsChurchId', currentChurch.id);
-      showSetupMessage('Igreja criada com sucesso.');
-      setTimeout(() => showScreen('s-login', true), 500);
-    } catch (error) {
-      showSetupMessage(error.message, true);
-    } finally {
-      button.disabled = false;
-      button.textContent = 'Criar igreja e continuar';
-    }
-  });
-
-  const PUBLIC_SCREENS = new Set(['s-setup','s-login','s-kiosk','s-etiqueta']);
-
-  function isLoggedIn(){
-    return sessionStorage.getItem('tafKidsDevSession') === '1';
-  }
-
-  function devLogin(){
-    sessionStorage.setItem('tafKidsDevSession', '1');
-    showScreen('s-dashboard', true);
-  }
-
-  function logout(){
-    sessionStorage.removeItem('tafKidsDevSession');
-    showScreen('s-login', true);
-  }
-
-  function showScreen(id, systemNavigation=false){
-    if (!systemNavigation && !PUBLIC_SCREENS.has(id) && !isLoggedIn()) {
-      id = 's-login';
-    }
+  function showScreen(id){
+    document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
     const target = document.getElementById(id);
-    if (!target) return;
-    document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
-    target.classList.add('active');
+    if(target) target.classList.add('active');
     window.scrollTo({top:0, behavior:'smooth'});
   }
 
-  function kioskStep(id){
-    ['k-scan','k-confirm','k-done'].forEach(s => document.getElementById(s).style.display = 'none');
-    document.getElementById(id).style.display = 'flex';
+  function showLoginMessage(message, type='error'){
+    const box=document.getElementById('loginMessage');
+    if(!box) return;
+    box.textContent=message;
+    box.className='auth-message '+type;
   }
-  initializeApp();
+
+  function clearLoginMessage(){
+    const box=document.getElementById('loginMessage');
+    if(box){ box.textContent=''; box.className='auth-message'; }
+  }
+
+  function applyIdentity(data){
+    currentUser=data.user;
+    currentChurch=(data.churches||[])[0]||null;
+    const first=(currentUser?.name||'Usuário').trim().split(/\s+/)[0];
+    const roles=currentChurch?.roles||[];
+    const roleLabels={admin:'Administrador',reception:'Recepção',teacher:'Professor',assistant:'Auxiliar'};
+    const roleText=roles.map(r=>roleLabels[r]||r).join(' · ')||'Sem função';
+    const n=document.getElementById('dashboardUserName'); if(n) n.textContent=currentUser?.name||'Usuário';
+    const g=document.getElementById('dashboardGreetingName'); if(g) g.textContent=first;
+    const rr=document.getElementById('dashboardUserRole'); if(rr) rr.textContent=roleText;
+    if(currentChurch?.branding){
+      const b=currentChurch.branding;
+      if(b.primary_color) document.documentElement.style.setProperty('--primary',b.primary_color);
+      if(b.secondary_color) document.documentElement.style.setProperty('--primary-dark',b.secondary_color);
+      if(b.accent_color) document.documentElement.style.setProperty('--accent',b.accent_color);
+    }
+  }
+
+  async function api(path, options={}){
+    const token=localStorage.getItem(TOKEN_KEY);
+    const headers={...(options.headers||{})};
+    if(token) headers.Authorization=`Bearer ${token}`;
+    const response=await fetch(`${API_BASE}${path}`, {...options, headers});
+    let data={};
+    try{ data=await response.json(); }catch{}
+    return {response,data};
+  }
+
+  async function restoreSession(){
+    const token=localStorage.getItem(TOKEN_KEY);
+    if(!token){ showScreen('s-login'); return; }
+    try{
+      const {response,data}=await api('/api/me');
+      if(!response.ok || !data.ok) throw new Error('expired');
+      applyIdentity(data);
+      showScreen('s-dashboard');
+    }catch{
+      localStorage.removeItem(TOKEN_KEY);
+      showScreen('s-login');
+    }
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', async event=>{
+    event.preventDefault();
+    clearLoginMessage();
+    const button=document.getElementById('loginSubmit');
+    const email=document.getElementById('loginEmail').value.trim();
+    const password=document.getElementById('loginPassword').value;
+    button.disabled=true; button.textContent='Entrando...';
+    try{
+      const {response,data}=await api('/api/auth/login',{
+        method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,password})
+      });
+      if(!response.ok || !data.ok) throw new Error(data.message||'Não foi possível entrar.');
+      localStorage.setItem(TOKEN_KEY,data.token);
+      const me=await api('/api/me');
+      if(!me.response.ok || !me.data.ok) throw new Error('A sessão foi criada, mas não foi possível carregar o perfil.');
+      applyIdentity(me.data);
+      document.getElementById('loginPassword').value='';
+      showScreen('s-dashboard');
+    }catch(error){
+      localStorage.removeItem(TOKEN_KEY);
+      showLoginMessage(error.message||'Erro ao entrar.');
+    }finally{
+      button.disabled=false; button.textContent='Entrar';
+    }
+  });
+
+  async function logout(){
+    try{ await api('/api/auth/logout',{method:'POST'}); }catch{}
+    localStorage.removeItem(TOKEN_KEY);
+    currentUser=null; currentChurch=null;
+    document.getElementById('loginPassword').value='';
+    showScreen('s-login');
+  }
+
+  function kioskStep(id){
+    ['k-scan','k-confirm','k-done'].forEach(s=>{const el=document.getElementById(s); if(el) el.style.display='none';});
+    const el=document.getElementById(id); if(el) el.style.display='flex';
+  }
+
+  restoreSession();
 </script>
 </body>
 </html>

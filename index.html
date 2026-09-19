@@ -122,7 +122,7 @@
           <div><h2 style="font-size:26px;">Entrar no Taf Kids</h2><p style="margin:8px 0 0; color:var(--ink-soft); font-size:14px; line-height:1.5;">Use sua conta para acessar sua igreja e suas funções.</p></div>
           <div id="loginMessage" class="auth-message"></div>
           <label style="display:flex; flex-direction:column; gap:6px;"><span style="font-size:13px; font-weight:600;">E-mail</span><input id="loginEmail" type="email" autocomplete="username" required style="height:46px; border-radius:10px; border:1px solid var(--border); padding:0 14px; font-size:14px; background:var(--bg);"></label>
-          <label style="display:flex; flex-direction:column; gap:6px;"><span style="font-size:13px; font-weight:600;">Senha</span><input id="loginPassword" type="password" autocomplete="current-password" required style="height:46px; border-radius:10px; border:1px solid var(--border); padding:0 14px; font-size:14px; background:var(--bg);"></label>
+          <label style="display:flex; flex-direction:column; gap:6px;"><span style="font-size:13px; font-weight:600;">Senha</span><span style="position:relative; display:block;"><input id="loginPassword" type="password" autocomplete="current-password" required style="width:100%; height:46px; border-radius:10px; border:1px solid var(--border); padding:0 48px 0 14px; font-size:14px; background:var(--bg);"><button id="togglePassword" type="button" aria-label="Mostrar senha" title="Mostrar senha" style="position:absolute; right:5px; top:50%; transform:translateY(-50%); width:38px; height:36px; border:0; border-radius:8px; background:transparent; color:var(--ink-soft); cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0;"><svg id="passwordEyeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></span></label>
           <div style="text-align:right;"><span style="font-size:13px; color:var(--ink-soft);">Recuperação de senha será habilitada na próxima etapa.</span></div>
           <button id="loginSubmit" type="submit" style="width:100%; height:50px; border-radius:10px; border:none; background:var(--accent); color:#fff; font-size:15px; font-weight:700;">Entrar</button>
           <div style="display:flex; align-items:center; gap:12px;"><div style="flex:1; height:1px; background:var(--border);"></div><span style="font-size:12px; color:#A69C8C;">ou</span><div style="flex:1; height:1px; background:var(--border);"></div></div>
@@ -156,46 +156,40 @@
       </div>
       <div style="flex:1; padding:32px 36px; display:flex; flex-direction:column; gap:24px;">
         <div style="display:flex; align-items:center; justify-content:space-between;">
-          <div><h1 style="font-size:24px;">Olá, <span id="dashboardGreetingName">usuário</span></h1><p style="margin:4px 0 0; color:var(--ink-soft); font-size:14px;">Culto das 10h · 14 de setembro de 2026</p></div>
+          <div><h1 style="font-size:24px;">Olá, <span id="dashboardGreetingName">usuário</span></h1><p id="dashboardServiceLabel" style="margin:4px 0 0; color:var(--ink-soft); font-size:14px;">Carregando dados do painel...</p></div>
           <div style="display:flex;gap:10px;"><button onclick="showScreen('s-kiosk')" style="height:44px; padding:0 20px; border-radius:10px; border:none; background:var(--accent); color:#fff; font-weight:700; font-size:14px;">+ Abrir totem de check-in</button><button onclick="logout()" style="height:44px; padding:0 16px; border-radius:10px; border:1px solid var(--border); background:var(--surface); color:var(--ink); font-weight:700; font-size:14px;">Sair</button></div>
         </div>
         <div style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px;">
           <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px;">
             <div style="font-size:12px; color:var(--ink-soft); font-weight:600;">Crianças presentes</div>
-            <div style="font-size:32px; font-weight:700; margin-top:6px; color:var(--primary);">38</div>
-            <div style="font-size:12px; color:var(--ok); margin-top:4px;">+6 vs. semana passada</div>
+            <div id="dashboardChildrenPresent" style="font-size:32px; font-weight:700; margin-top:6px; color:var(--primary);">—</div>
+            <div id="dashboardChildrenNote" style="font-size:12px; color:var(--ink-soft); margin-top:4px;">Carregando...</div>
           </div>
           <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px;">
             <div style="font-size:12px; color:var(--ink-soft); font-weight:600;">Voluntários escalados</div>
-            <div style="font-size:32px; font-weight:700; margin-top:6px; color:var(--primary);">7 / 8</div>
-            <div style="font-size:12px; color:var(--accent-dark); margin-top:4px;">1 pendente de confirmação</div>
+            <div id="dashboardVolunteers" style="font-size:32px; font-weight:700; margin-top:6px; color:var(--primary);">—</div>
+            <div id="dashboardVolunteersNote" style="font-size:12px; color:var(--ink-soft); margin-top:4px;">Carregando...</div>
           </div>
           <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px;">
             <div style="font-size:12px; color:var(--ink-soft); font-weight:600;">Turmas ativas hoje</div>
-            <div style="font-size:32px; font-weight:700; margin-top:6px; color:var(--primary);">4</div>
-            <div style="font-size:12px; color:var(--ink-soft); margin-top:4px;">Berçário a Juniores</div>
+            <div id="dashboardActiveRooms" style="font-size:32px; font-weight:700; margin-top:6px; color:var(--primary);">—</div>
+            <div id="dashboardRoomsNote" style="font-size:12px; color:var(--ink-soft); margin-top:4px;">Carregando...</div>
           </div>
           <div style="background:var(--alert-bg); border:1px solid #E9C4BC; border-radius:14px; padding:18px;">
             <div style="font-size:12px; color:var(--alert); font-weight:600;">Chamados ativos</div>
-            <div style="font-size:32px; font-weight:700; margin-top:6px; color:var(--alert);">2</div>
-            <div style="font-size:12px; color:var(--alert); margin-top:4px;">Aguardando responsável</div>
+            <div id="dashboardActiveCalls" style="font-size:32px; font-weight:700; margin-top:6px; color:var(--alert);">—</div>
+            <div id="dashboardCallsNote" style="font-size:12px; color:var(--alert); margin-top:4px;">Carregando...</div>
           </div>
         </div>
         <div style="display:grid; grid-template-columns:1.4fr 1fr; gap:20px; flex-grow:1;">
           <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; display:flex; flex-direction:column; gap:12px;">
             <div style="display:flex; align-items:center; justify-content:space-between;"><h3 style="font-size:16px;">Check-ins recentes</h3><a href="#" style="font-size:13px; font-weight:600; color:var(--primary);">Ver todos</a></div>
             <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:8px 4px; font-size:12px; color:#A69C8C; font-weight:700;"><span>Criança</span><span>Turma</span><span>Código</span><span>Horário</span></div>
-            <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:12px 4px; border-top:1px solid var(--border); font-size:14px;"><span style="font-weight:600;">Sofia Andrade</span><span style="color:var(--ink-soft);">Maternal</span><span style="font-weight:700; color:var(--primary);">042</span><span style="color:var(--ink-soft);">09:52</span></div>
-            <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:12px 4px; border-top:1px solid var(--border); font-size:14px;"><span style="font-weight:600;">Davi Lima</span><span style="color:var(--ink-soft);">Juniores</span><span style="font-weight:700; color:var(--primary);">017</span><span style="color:var(--ink-soft);">09:49</span></div>
-            <div style="display:grid; grid-template-columns:2fr 1fr 1fr 1fr; padding:12px 4px; border-top:1px solid var(--border); font-size:14px;"><span style="font-weight:600;">Helena Souza</span><span style="color:var(--ink-soft);">Berçário</span><span style="font-weight:700; color:var(--primary);">089</span><span style="color:var(--ink-soft);">09:41</span></div>
+            <div id="dashboardRecentCheckins" style="display:flex; flex-direction:column;"><div style="padding:24px 4px; border-top:1px solid var(--border); color:var(--ink-soft); font-size:13px;">Carregando check-ins...</div></div>
           </div>
           <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; display:flex; flex-direction:column; gap:14px;">
             <div style="display:flex; align-items:center; justify-content:space-between;"><h3 style="font-size:16px;">Escala de hoje</h3><a href="#" onclick="showScreen('s-escalas')" style="font-size:13px; font-weight:600; color:var(--primary);">Ver escalas</a></div>
-            <div style="display:flex; flex-direction:column; gap:10px;">
-              <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:var(--primary-tint); border-radius:10px;"><div><div style="font-size:14px; font-weight:600;">Ana Beatriz</div><div style="font-size:12px; color:var(--ink-soft);">Berçário · Sala 1</div></div><span style="font-size:11px; font-weight:700; color:var(--ok); background:var(--ok-bg); padding:4px 10px; border-radius:999px;">Confirmada</span></div>
-              <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:var(--primary-tint); border-radius:10px;"><div><div style="font-size:14px; font-weight:600;">Pedro Nogueira</div><div style="font-size:12px; color:var(--ink-soft);">Maternal · Sala 2</div></div><span style="font-size:11px; font-weight:700; color:var(--ok); background:var(--ok-bg); padding:4px 10px; border-radius:999px;">Confirmada</span></div>
-              <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:var(--alert-bg); border-radius:10px;"><div><div style="font-size:14px; font-weight:600;">Carla Vieira</div><div style="font-size:12px; color:var(--ink-soft);">Juniores · Sala 3</div></div><span style="font-size:11px; font-weight:700; color:var(--alert); background:#F1D3CC; padding:4px 10px; border-radius:999px;">Pendente</span></div>
-            </div>
+            <div id="dashboardSchedule" style="display:flex; flex-direction:column; gap:10px;"><div style="padding:18px 4px; color:var(--ink-soft); font-size:13px;">Carregando escala...</div></div>
           </div>
         </div>
       </div>
@@ -481,6 +475,42 @@
     return {response,data};
   }
 
+
+  function escapeHtml(value){ return String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c])); }
+  function dashDate(value){ if(!value)return ''; const p=String(value).slice(0,10).split('-'); if(p.length!==3)return value; return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'}); }
+  function dashTime(value){ if(!value)return '—'; const s=String(value),m=s.match(/(?:T|\s)(\d{2}:\d{2})/); return m?m[1]:(/^\d{2}:\d{2}/.test(s)?s.slice(0,5):s); }
+
+  function renderDashboard(data){
+    const s=data.summary||{}, service=data.service||null;
+    document.getElementById('dashboardChildrenPresent').textContent=Number(s.children_present||0);
+    document.getElementById('dashboardVolunteers').textContent=`${Number(s.confirmed||0)} / ${Number(s.scheduled||0)}`;
+    document.getElementById('dashboardActiveRooms').textContent=Number(s.active_rooms||0);
+    document.getElementById('dashboardActiveCalls').textContent=Number(s.active_calls||0);
+    document.getElementById('dashboardChildrenNote').textContent=service?'Neste culto':'Nenhum culto cadastrado';
+    const pending=Math.max(0,Number(s.scheduled||0)-Number(s.confirmed||0));
+    document.getElementById('dashboardVolunteersNote').textContent=service?(pending===1?'1 pendente de confirmação':`${pending} pendentes de confirmação`):'Nenhuma escala ativa';
+    document.getElementById('dashboardRoomsNote').textContent=service?'Salas deste culto':'Nenhuma sala ativa';
+    document.getElementById('dashboardCallsNote').textContent=Number(s.active_calls||0)?'Aguardando responsável':'Nenhum chamado ativo';
+    document.getElementById('dashboardServiceLabel').textContent=service?`${service.name} · ${dashDate(service.service_date)}${service.starts_at?' · '+dashTime(service.starts_at):''}`:'Nenhum culto cadastrado ainda';
+
+    const rows=data.recent_checkins||[], ci=document.getElementById('dashboardRecentCheckins');
+    ci.innerHTML=rows.length?rows.map(x=>`<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:12px 4px;border-top:1px solid var(--border);font-size:14px;"><span style="font-weight:600;">${escapeHtml(x.child_name||'—')}</span><span style="color:var(--ink-soft);">${escapeHtml(x.room_name||'Pendente')}</span><span style="font-weight:700;color:var(--primary);">${escapeHtml(x.public_code||'—')}</span><span style="color:var(--ink-soft);">${escapeHtml(dashTime(x.checked_in_at))}</span></div>`).join(''):'<div style="padding:24px 4px;border-top:1px solid var(--border);color:var(--ink-soft);font-size:13px;">Nenhum check-in registrado para este culto.</div>';
+
+    const a=data.schedule||[], sc=document.getElementById('dashboardSchedule'), roles={admin:'ADM',reception:'Recepção',teacher:'Professor',assistant:'Auxiliar'}, statuses={confirmed:'Confirmada',pending:'Pendente',declined:'Recusada',absent:'Ausente'};
+    sc.innerHTML=a.length?a.map(x=>{const ok=x.status==='confirmed',detail=[roles[x.role]||x.role,x.room_name].filter(Boolean).join(' · ');return `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:${ok?'var(--primary-tint)':'var(--alert-bg)'};border-radius:10px;"><div><div style="font-size:14px;font-weight:600;">${escapeHtml(x.user_name||'—')}</div><div style="font-size:12px;color:var(--ink-soft);">${escapeHtml(detail||'Equipe')}</div></div><span style="font-size:11px;font-weight:700;color:${ok?'var(--ok)':'var(--alert)'};background:${ok?'var(--ok-bg)':'#F1D3CC'};padding:4px 10px;border-radius:999px;">${escapeHtml(statuses[x.status]||x.status||'—')}</span></div>`}).join(''):'<div style="padding:18px 4px;color:var(--ink-soft);font-size:13px;">Nenhuma pessoa escalada para este culto.</div>';
+  }
+  async function loadDashboard(){
+    if(!currentChurch)return;
+    try{
+      const {response,data}=await api(`/api/dashboard?church_id=${encodeURIComponent(currentChurch.id)}`);
+      if(!response.ok||!data.ok)throw new Error(data.message||'Não foi possível carregar o painel.');
+      renderDashboard(data);
+    }catch(e){
+      console.error('Dashboard:',e);
+      const el=document.getElementById('dashboardServiceLabel'); if(el)el.textContent=e.message||'Não foi possível carregar o painel.';
+    }
+  }
+
   async function restoreSession(){
     const token=localStorage.getItem(TOKEN_KEY);
     if(!token){ showScreen('s-login'); return; }
@@ -488,12 +518,26 @@
       const {response,data}=await api('/api/me');
       if(!response.ok || !data.ok) throw new Error('expired');
       applyIdentity(data);
+      await loadDashboard();
       showScreen('s-dashboard');
     }catch{
       localStorage.removeItem(TOKEN_KEY);
       showScreen('s-login');
     }
   }
+
+  document.getElementById('togglePassword').addEventListener('click',()=>{
+    const input=document.getElementById('loginPassword');
+    const button=document.getElementById('togglePassword');
+    const showing=input.type==='text';
+    input.type=showing?'password':'text';
+    button.setAttribute('aria-label',showing?'Mostrar senha':'Ocultar senha');
+    button.setAttribute('title',showing?'Mostrar senha':'Ocultar senha');
+    document.getElementById('passwordEyeIcon').innerHTML=showing
+      ? '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle>'
+      : '<path d="M3 3l18 18"></path><path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"></path><path d="M9.9 4.2A10.8 10.8 0 0 1 12 4c6.5 0 10 8 10 8a18.6 18.6 0 0 1-2.1 3.2"></path><path d="M6.6 6.6C3.7 8.5 2 12 2 12s3.5 8 10 8a9.7 9.7 0 0 0 4.1-.9"></path>';
+    input.focus();
+  });
 
   document.getElementById('loginForm').addEventListener('submit', async event=>{
     event.preventDefault();
@@ -511,6 +555,7 @@
       const me=await api('/api/me');
       if(!me.response.ok || !me.data.ok) throw new Error('A sessão foi criada, mas não foi possível carregar o perfil.');
       applyIdentity(me.data);
+      await loadDashboard();
       document.getElementById('loginPassword').value='';
       showScreen('s-dashboard');
     }catch(error){

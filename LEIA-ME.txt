@@ -1,36 +1,16 @@
-TAF KIDS v2.5.0 — CORREÇÃO + HARDENING
+TAF KIDS v2.5.1 — HOTFIX CORS
 
-ORDEM:
-1. Execute migrations/0001_v2_5_hardening.sql no D1 (é não destrutiva).
-2. Publique worker.js no Cloudflare Worker.
-3. Confirme /api/health => version 2.5.0.
-4. No GitHub, substitua index.html e adicione manifest.webmanifest, sw.js e version.json.
-5. Faça recarga forçada uma vez. O service worker v2.5 usa cache próprio e remove caches Taf Kids antigos.
+CORREÇÃO
+- Corrige o "Failed to fetch" do login.
+- Todas as respostas JSON passam a receber CORS automaticamente.
+- Origin autorizado: https://leonardogda-gif.github.io
+- OPTIONS rejeita origins não autorizados.
+- Cache do PWA avançado para 2.5.1.
 
-SEGURANÇA:
-- /api/churches público removido.
-- /api/setup/admin público removido.
-- Criação de igreja/ADM somente por Super ADM.
-- church_id obrigatório nas rotas administrativas.
-- UUID/data/hora/enums validados.
-- IDs novos gerados no Worker.
-- login com limite de 8 falhas/15 min por e-mail.
-- CORS deixa de ser *.
-- erro 500 não expõe detail.
-- auditoria para ações administrativas novas.
-- status limited/cancelled/expired bloqueia novas operações administrativas de salas/cultos.
-- dashboard usa data da timezone da igreja, sem date('now','localtime').
-
-FRONTEND:
-- reconstruído sobre a v2.3 que estava funcional.
-- navegação Igreja <-> Super ADM.
-- Escalas estáticas substituídas por dados reais.
-- Totem/Etiqueta/Chamada ficam explicitamente em desenvolvimento e não abrem protótipo falso.
-- renderização das novas listas usa DOM/textContent e data-* em vez de IDs interpolados em onclick.
-- Super ADM checa respostas antes de informar sucesso.
-- modais novos têm role=dialog/aria-modal e foco inicial.
-- manifest + service worker + version.json incluídos.
-
-OBSERVAÇÃO:
-- Os protótipos visuais antigos de Totem/Etiqueta/Chamada ainda existem no HTML como referência de design, mas a navegação para eles foi bloqueada. No próximo bloco eles devem ser substituídos pelo fluxo real.
-- Ainda não movermos os PNGs base64 para assets separados nesta versão; isso é otimização, não deve bloquear o teste funcional.
+PUBLICAÇÃO
+1. Não há nova migration.
+2. Publique worker.js no Cloudflare.
+3. Abra /api/health e confirme version 2.5.1.
+4. No GitHub, substitua sw.js e version.json.
+5. O index.html é o mesmo da v2.5 e está incluído no pacote completo.
+6. Faça uma recarga forçada após a publicação.

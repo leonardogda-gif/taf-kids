@@ -1,0 +1,10 @@
+{
+  "name": "Taf Kids",
+  "short_name": "Taf Kids",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#FBF7F0",
+  "theme_color": "#31584F",
+  "description": "Gestão segura do ministério infantil."
+}

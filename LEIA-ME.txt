@@ -1,8 +1,36 @@
-TAF KIDS v2.4
+TAF KIDS v2.5.0 — CORREÇÃO + HARDENING
 
-1. Publique worker.js no Cloudflare e confirme /api/health = 2.4.0.
-2. Substitua index.html no GitHub Pages.
+ORDEM:
+1. Execute migrations/0001_v2_5_hardening.sql no D1 (é não destrutiva).
+2. Publique worker.js no Cloudflare Worker.
+3. Confirme /api/health => version 2.5.0.
+4. No GitHub, substitua index.html e adicione manifest.webmanifest, sw.js e version.json.
+5. Faça recarga forçada uma vez. O service worker v2.5 usa cache próprio e remove caches Taf Kids antigos.
 
-Incluído: bootstrap inicial removido; navegação Igreja ↔ Super ADM; gestão Super ADM de status/assinatura/recurso por igreja; central ADM com Salas, Cultos/Eventos e Escalas reais; criação/edição de salas; criação e abertura/encerramento de culto; escala real básica sem dados fictícios.
+SEGURANÇA:
+- /api/churches público removido.
+- /api/setup/admin público removido.
+- Criação de igreja/ADM somente por Super ADM.
+- church_id obrigatório nas rotas administrativas.
+- UUID/data/hora/enums validados.
+- IDs novos gerados no Worker.
+- login com limite de 8 falhas/15 min por e-mail.
+- CORS deixa de ser *.
+- erro 500 não expõe detail.
+- auditoria para ações administrativas novas.
+- status limited/cancelled/expired bloqueia novas operações administrativas de salas/cultos.
+- dashboard usa data da timezone da igreja, sem date('now','localtime').
 
-Próximo grande bloco: famílias/crianças/visitantes + check-in + QR + impressão + checkout.
+FRONTEND:
+- reconstruído sobre a v2.3 que estava funcional.
+- navegação Igreja <-> Super ADM.
+- Escalas estáticas substituídas por dados reais.
+- Totem/Etiqueta/Chamada ficam explicitamente em desenvolvimento e não abrem protótipo falso.
+- renderização das novas listas usa DOM/textContent e data-* em vez de IDs interpolados em onclick.
+- Super ADM checa respostas antes de informar sucesso.
+- modais novos têm role=dialog/aria-modal e foco inicial.
+- manifest + service worker + version.json incluídos.
+
+OBSERVAÇÃO:
+- Os protótipos visuais antigos de Totem/Etiqueta/Chamada ainda existem no HTML como referência de design, mas a navegação para eles foi bloqueada. No próximo bloco eles devem ser substituídos pelo fluxo real.
+- Ainda não movermos os PNGs base64 para assets separados nesta versão; isso é otimização, não deve bloquear o teste funcional.

@@ -133,6 +133,7 @@
   </div>
 
 
+  <div id="superChurchModal" style="display:none;position:fixed;inset:0;background:rgba(20,30,27,.55);z-index:9999;align-items:center;justify-content:center;padding:20px"><div style="width:min(700px,96vw);background:#fff;border-radius:18px;padding:24px"><div style="display:flex;justify-content:space-between"><h2 id="superChurchModalTitle">Igreja</h2><button onclick="closeSuperChurch()" style="border:0;background:transparent;font-size:24px">×</button></div><div id="superChurchModalBody"></div></div></div>
   <!-- ===================== SUPER ADM ===================== -->
   <div id="s-super-admin" class="screen">
     <div class="stage-label">Desktop · 1280 × 800 · Super ADM Taf Kids</div>
@@ -154,6 +155,7 @@
           <div id="superUserName" style="color:#fff;font-size:13px;font-weight:700;">Super ADM</div>
           <div style="color:rgba(255,255,255,.6);font-size:11px;">Administração da plataforma</div>
           <button type="button" onclick="openMyChurch()" style="margin-top:12px;width:100%;height:36px;border:1px solid rgba(255,255,255,.25);border-radius:9px;background:transparent;color:#fff;font-weight:700;cursor:pointer;">Abrir minha igreja</button>
+          <button id="backToSuperAdminBtn" type="button" onclick="loadSuperDashboard();showScreen('s-super-admin')" style="display:none;margin-bottom:8px;width:100%;height:36px;border:1px solid rgba(255,255,255,.25);border-radius:9px;background:transparent;color:#fff;font-weight:700;cursor:pointer;">Painel Super ADM</button>
           <button type="button" onclick="logout()" style="margin-top:8px;width:100%;height:34px;border:0;border-radius:9px;background:rgba(255,255,255,.08);color:#fff;cursor:pointer;">Sair</button>
         </div>
       </aside>
@@ -185,6 +187,7 @@
     </div>
   </div>
 
+  <div id="s-church-management" class="screen"><div class="stage-label">Gestão da igreja</div><div class="frame" style="width:1180px;min-height:760px;padding:30px;background:var(--bg);"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:12px;font-weight:800;color:var(--accent-dark)">ADMINISTRAÇÃO</div><h1>Salas, cultos e escalas</h1></div><button class="btn-secondary" onclick="loadDashboard();showScreen('s-dashboard')">Voltar ao painel</button></div><div style="display:grid;grid-template-columns:1fr 1.2fr;gap:16px;margin-top:20px"><section class="card"><div style="display:flex;justify-content:space-between"><h2>Salas</h2><button class="btn-primary" onclick="editRoom()">+ Nova sala</button></div><div id="adminRoomsList"></div></section><section class="card"><div style="display:flex;justify-content:space-between"><h2>Cultos & eventos</h2><button class="btn-primary" onclick="newService()">+ Novo culto</button></div><div id="adminServicesList"></div></section></div><section class="card" style="margin-top:16px"><div style="display:flex;justify-content:space-between"><div><h2>Escalas</h2><p style="font-size:12px;color:var(--ink-soft)">Dados reais do D1, sem exemplos fictícios.</p></div><button class="btn-secondary" onclick="newSchedule()">+ Criar escala</button></div><div id="adminSchedulesList"></div></section></div></div><div id="adminEditModal" style="display:none;position:fixed;inset:0;background:rgba(20,30,27,.55);z-index:9998;align-items:center;justify-content:center;padding:20px"><div style="width:min(620px,96vw);background:#fff;border-radius:18px;padding:24px"><div style="display:flex;justify-content:space-between"><h2 id="adminEditTitle">Cadastro</h2><button onclick="closeAdminEdit()" style="border:0;background:transparent;font-size:24px">×</button></div><div id="adminEditBody"></div></div></div>
   <!-- ===================== DASHBOARD (escuro) ===================== -->
   <div id="s-dashboard" class="screen">
     <div class="stage-label">Desktop · 1280 × 800 · Painel administrativo</div>
@@ -209,13 +212,8 @@
       </div>
       <div style="flex:1; padding:32px 36px; display:flex; flex-direction:column; gap:24px;">
         <div style="display:flex; align-items:center; justify-content:space-between;">
-          <div><h1 style="font-size:24px;">Olá, <span id="dashboardGreetingName">usuário</span></h1><p id="dashboardServiceLabel" style="margin:4px 0 0; color:var(--ink-soft); font-size:14px;">Carregando dados do painel...</p></div>
-          <div id="superBootstrapBanner" style="display:none;margin-top:14px;padding:12px 14px;border:1px solid #E4C77D;background:#FFF7DD;border-radius:12px;font-size:13px;align-items:center;justify-content:space-between;gap:14px;">
-            <span><strong>Configuração inicial:</strong> ainda não existe Super ADM da plataforma.</span>
-            <button type="button" onclick="initializeSuperAdmin()" style="border:0;border-radius:9px;background:var(--primary);color:#fff;padding:9px 12px;font-weight:700;cursor:pointer;">Ativar meu Super ADM</button>
+          <div><h1 style="font-size:24px;">Olá, <span id="dashboardGreetingName">usuário</span></h1><button onclick="openChurchManagement()" style="margin-left:12px;border:0;border-radius:9px;background:var(--primary);color:white;padding:8px 11px;font-weight:700;cursor:pointer">Gerenciar igreja</button><p id="dashboardServiceLabel" style="margin:4px 0 0; color:var(--ink-soft); font-size:14px;">Carregando dados do painel...</p></div>
           </div>
-          <div style="display:flex;gap:10px;"><button onclick="showScreen('s-kiosk')" style="height:44px; padding:0 20px; border-radius:10px; border:none; background:var(--accent); color:#fff; font-weight:700; font-size:14px;">+ Abrir totem de check-in</button><button onclick="logout()" style="height:44px; padding:0 16px; border-radius:10px; border:1px solid var(--border); background:var(--surface); color:var(--ink); font-weight:700; font-size:14px;">Sair</button></div>
-        </div>
         <div style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px;">
           <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:18px;">
             <div style="font-size:12px; color:var(--ink-soft); font-weight:600;">Crianças presentes</div>
@@ -512,6 +510,7 @@
     const roleLabels={admin:'Administrador',reception:'Recepção',teacher:'Professor',assistant:'Auxiliar'};
     const churchRoleText=roles.map(r=>roleLabels[r]||r).join(' · ')||'Sem função';
     const roleText=currentUser?.platform_role==='super_admin' ? `Super ADM · ${churchRoleText}` : churchRoleText;
+    const sb=document.getElementById('backToSuperAdminBtn');if(sb)sb.style.display=currentUser?.platform_role==='super_admin'?'block':'none';
     const n=document.getElementById('dashboardUserName'); if(n) n.textContent=currentUser?.name||'Usuário';
     const g=document.getElementById('dashboardGreetingName'); if(g) g.textContent=first;
     const rr=document.getElementById('dashboardUserRole'); if(rr) rr.textContent=roleText;
@@ -570,34 +569,6 @@
   }
 
 
-  async function checkSuperBootstrap(){
-    if(currentUser?.platform_role==='super_admin') return;
-    try{
-      const {response,data}=await api('/api/platform/bootstrap-status');
-      const banner=document.getElementById('superBootstrapBanner');
-      if(banner) banner.style.display=(response.ok&&data.can_initialize)?'flex':'none';
-    }catch{}
-  }
-
-  async function initializeSuperAdmin(){
-    const banner=document.getElementById('superBootstrapBanner');
-    const button=banner?.querySelector('button');
-    if(button){button.disabled=true;button.textContent='Ativando...';}
-    try{
-      const {response,data}=await api('/api/setup/super-admin',{method:'POST'});
-      if(!response.ok||!data.ok) throw new Error(data.message||'Não foi possível ativar o Super ADM.');
-      const me=await api('/api/me');
-      if(!me.response.ok||!me.data.ok) throw new Error('Super ADM ativado, mas não foi possível atualizar o perfil.');
-      applyIdentity(me.data);
-      if(banner) banner.style.display='none';
-      await loadSuperDashboard();
-      showScreen('s-super-admin');
-    }catch(e){
-      alert(e.message||'Erro ao ativar Super ADM.');
-      if(button){button.disabled=false;button.textContent='Ativar meu Super ADM';}
-    }
-  }
-
   async function loadSuperDashboard(){
     if(currentUser?.platform_role!=='super_admin') return;
     const name=document.getElementById('superUserName');
@@ -614,7 +585,7 @@
       const rows=document.getElementById('superChurchRows');
       const churches=data.churches||[];
       rows.innerHTML=churches.length?churches.map(c=>`
-        <div style="display:grid;grid-template-columns:2fr 1fr .8fr .8fr 1fr;padding:14px 22px;border-top:1px solid var(--border);font-size:13px;align-items:center;">
+        <div onclick="openSuperChurch('${escapeHtml(c.id)}')" style="display:grid;grid-template-columns:2fr 1fr .8fr .8fr 1fr;padding:14px 22px;border-top:1px solid var(--border);font-size:13px;align-items:center;cursor:pointer;">
           <div><div style="font-weight:700;">${escapeHtml(c.name)}</div><div style="font-size:11px;color:var(--ink-soft);">${escapeHtml(c.slug||'')}</div></div>
           <span>${escapeHtml(c.status||'—')}</span>
           <span>${Number(c.children_count||0)}</span>
@@ -634,7 +605,6 @@
       return;
     }
     await loadDashboard();
-    await checkSuperBootstrap();
     showScreen('s-dashboard');
   }
 
@@ -644,9 +614,28 @@
       return;
     }
     await loadDashboard();
-    await checkSuperBootstrap();
     showScreen('s-dashboard');
   }
+
+  let adminRooms=[],adminServices=[],adminSchedules=[],selectedSuperChurch=null;
+  async function openChurchManagement(){showScreen('s-church-management');await Promise.all([loadAdminRooms(),loadAdminServices(),loadAdminSchedules()]);}
+  async function loadAdminRooms(){const r=await api(`/api/admin/rooms?church_id=${encodeURIComponent(currentChurch.id)}`);adminRooms=r.data.rooms||[];document.getElementById('adminRoomsList').innerHTML=adminRooms.length?adminRooms.map(x=>`<div style="display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid var(--border)"><div><strong>${escapeHtml(x.name)}</strong><small style="display:block;color:var(--ink-soft)">${x.active?'Ativa':'Inativa'}</small></div><button class="btn-secondary" onclick="editRoom('${x.id}')">Editar</button></div>`).join(''):'<p>Nenhuma sala cadastrada.</p>';}
+  function editRoom(id=''){const x=adminRooms.find(r=>r.id===id)||{};document.getElementById('adminEditTitle').textContent=id?'Editar sala':'Nova sala';document.getElementById('adminEditBody').innerHTML=`<div style="display:grid;gap:10px"><input id="roomName" class="field" placeholder="Nome" value="${escapeHtml(x.name||'')}"><input id="roomLocation" class="field" placeholder="Localização" value="${escapeHtml(x.room_location||'')}"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="roomMin" type="number" class="field" placeholder="Mín. meses" value="${x.min_age_months??''}"><input id="roomMax" type="number" class="field" placeholder="Máx. meses" value="${x.max_age_months??''}"></div><select id="roomGender" class="field"><option value="any">Todos</option><option value="male">Masculino</option><option value="female">Feminino</option></select><label><input id="roomActive" type="checkbox" ${x.active===0?'':'checked'}> Ativa</label><button class="btn-primary" onclick="saveRoom('${id}')">Salvar</button></div>`;document.getElementById('roomGender').value=x.gender_rule||'any';document.getElementById('adminEditModal').style.display='flex';}
+  async function saveRoom(id){const x={id:id||undefined,church_id:currentChurch.id,name:roomName.value,room_location:roomLocation.value||null,min_age_months:roomMin.value===''?null:+roomMin.value,max_age_months:roomMax.value===''?null:+roomMax.value,gender_rule:roomGender.value,active:roomActive.checked};const r=await api('/api/admin/rooms',{method:'POST',body:JSON.stringify(x)});if(!r.response.ok)return alert(r.data.message);closeAdminEdit();loadAdminRooms();}
+  async function loadAdminServices(){const r=await api(`/api/admin/services?church_id=${encodeURIComponent(currentChurch.id)}`);adminServices=r.data.services||[];document.getElementById('adminServicesList').innerHTML=adminServices.length?adminServices.map(x=>`<div style="display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid var(--border)"><div><strong>${escapeHtml(x.name)}</strong><small style="display:block;color:var(--ink-soft)">${x.service_date} · ${x.status} · ${x.room_count||0} salas</small></div><button class="btn-secondary" onclick="serviceActions('${x.id}')">Gerenciar</button></div>`).join(''):'<p>Nenhum culto cadastrado.</p>';}
+  function newService(){adminEditTitle.textContent='Novo culto/evento';adminEditBody.innerHTML=`<div style="display:grid;gap:10px"><input id="svcName" class="field" placeholder="Nome"><input id="svcDate" type="date" class="field"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="svcStart" type="time" class="field"><input id="svcEnd" type="time" class="field"></div><select id="svcMode" class="field"><option value="automatic">Automática</option><option value="single_room">Sala única</option><option value="reception">Recepção</option><option value="manual">Manual</option></select><div>${adminRooms.filter(x=>x.active).map(x=>`<label style="display:block"><input class="svcRoom" type="checkbox" value="${x.id}"> ${escapeHtml(x.name)}</label>`).join('')||'Cadastre uma sala primeiro.'}</div><button class="btn-primary" onclick="saveService()">Criar culto</button></div>`;adminEditModal.style.display='flex';}
+  async function saveService(){const x={church_id:currentChurch.id,name:svcName.value,service_date:svcDate.value,starts_at:svcStart.value||null,ends_at:svcEnd.value||null,allocation_mode:svcMode.value,room_ids:[...document.querySelectorAll('.svcRoom:checked')].map(e=>e.value)};const r=await api('/api/admin/services',{method:'POST',body:JSON.stringify(x)});if(!r.response.ok)return alert(r.data.message);closeAdminEdit();await loadAdminServices();loadDashboard();}
+  function serviceActions(id){const x=adminServices.find(s=>s.id===id);adminEditTitle.textContent=x.name;adminEditBody.innerHTML=`<p>Status: <strong>${x.status}</strong></p>${x.status==='scheduled'?`<button class="btn-primary" onclick="setServiceStatus('${id}','open')">Abrir culto</button>`:''}${x.status==='open'?`<button class="btn-primary" onclick="setServiceStatus('${id}','closed')">Encerrar culto</button>`:''}`;adminEditModal.style.display='flex';}
+  async function setServiceStatus(id,status){await api('/api/admin/service/status',{method:'POST',body:JSON.stringify({church_id:currentChurch.id,id,status})});closeAdminEdit();await loadAdminServices();loadDashboard();}
+  async function loadAdminSchedules(){const r=await api(`/api/admin/schedules?church_id=${encodeURIComponent(currentChurch.id)}`);adminSchedules=r.data.schedules||[];adminSchedulesList.innerHTML=adminSchedules.length?adminSchedules.map(x=>`<div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;padding:10px 0;border-top:1px solid var(--border)"><strong>${escapeHtml(x.name||x.service_name)}</strong><span>${x.service_date}</span><span>${x.confirmed||0}/${x.assignments||0}</span><span>${x.status}</span></div>`).join(''):'<p>Nenhuma escala criada.</p>';}
+  function newSchedule(){if(!adminServices.length)return alert('Crie um culto antes.');adminEditTitle.textContent='Nova escala';adminEditBody.innerHTML=`<select id="schService" class="field" style="width:100%">${adminServices.map(x=>`<option value="${x.id}">${escapeHtml(x.name)} · ${x.service_date}</option>`).join('')}</select><input id="schName" class="field" style="width:100%;margin-top:10px" placeholder="Nome opcional"><button class="btn-primary" style="margin-top:10px" onclick="saveSchedule()">Criar</button>`;adminEditModal.style.display='flex';}
+  async function saveSchedule(){const r=await api('/api/admin/schedules',{method:'POST',body:JSON.stringify({church_id:currentChurch.id,service_id:schService.value,name:schName.value})});if(!r.response.ok)return alert(r.data.message);closeAdminEdit();loadAdminSchedules();loadDashboard();}
+  function closeAdminEdit(){adminEditModal.style.display='none';}
+  async function openSuperChurch(id){superChurchModal.style.display='flex';superChurchModalBody.textContent='Carregando...';const r=await api(`/api/super/church?id=${encodeURIComponent(id)}`);if(!r.response.ok)return superChurchModalBody.textContent=r.data.message;selectedSuperChurch=r.data;const c=r.data.church,s=r.data.subscription;superChurchModalTitle.textContent=c.name;superChurchModalBody.innerHTML=`<div style="display:grid;gap:10px"><select id="supChurchStatus" class="field"><option value="active">Igreja ativa</option><option value="inactive">Inativa</option><option value="suspended">Suspensa</option></select><select id="supSubType" class="field"><option value="trial">Trial</option><option value="paid">Paga</option><option value="courtesy">Cortesia</option><option value="partnership">Parceria</option></select><select id="supSubStatus" class="field"><option value="trial">Trial</option><option value="active">Ativa</option><option value="overdue">Atrasada</option><option value="grace">Tolerância</option><option value="limited">Limitada</option><option value="cancelled">Cancelada</option><option value="expired">Expirada</option></select><input id="supSubEnd" type="date" class="field"><div><strong>ADMs:</strong><br>${(r.data.admins||[]).map(a=>escapeHtml(a.name)+' · '+escapeHtml(a.email)).join('<br>')||'Nenhum'}</div><div style="display:flex;gap:6px"><input id="supFeature" class="field" placeholder="Recurso"><button class="btn-secondary" onclick="saveSuperFeature(true)">Liberar</button><button class="btn-secondary" onclick="saveSuperFeature(false)">Bloquear</button></div><div><button class="btn-secondary" onclick="saveSuperChurchStatus()">Salvar status</button> <button class="btn-primary" onclick="saveSuperSubscription()">Salvar assinatura</button></div></div>`;supChurchStatus.value=c.status;supSubType.value=s?.subscription_type||'trial';supSubStatus.value=s?.status||'trial';if(s?.current_period_end)supSubEnd.value=String(s.current_period_end).slice(0,10);}
+  function closeSuperChurch(){superChurchModal.style.display='none';}
+  async function saveSuperChurchStatus(){await api('/api/super/church/status',{method:'POST',body:JSON.stringify({church_id:selectedSuperChurch.church.id,status:supChurchStatus.value})});loadSuperDashboard();alert('Status atualizado.');}
+  async function saveSuperSubscription(){await api('/api/super/subscription',{method:'POST',body:JSON.stringify({church_id:selectedSuperChurch.church.id,subscription_type:supSubType.value,status:supSubStatus.value,current_period_end:supSubEnd.value||null})});loadSuperDashboard();alert('Assinatura atualizada.');}
+  async function saveSuperFeature(enabled){if(!supFeature.value.trim())return alert('Informe o recurso.');await api('/api/super/feature',{method:'POST',body:JSON.stringify({church_id:selectedSuperChurch.church.id,feature_key:supFeature.value.trim(),enabled})});alert(enabled?'Recurso liberado.':'Recurso bloqueado.');}
 
   async function restoreSession(){
     const token=localStorage.getItem(TOKEN_KEY);

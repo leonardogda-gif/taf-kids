@@ -1,20 +1,8 @@
-TAF KIDS v2.3
+TAF KIDS v2.4
 
-1. Cloudflare Worker:
-   - Substitua o código atual pelo arquivo worker.js e faça Deploy.
-   - /api/health deve mostrar version 2.3.0.
+1. Publique worker.js no Cloudflare e confirme /api/health = 2.4.0.
+2. Substitua index.html no GitHub Pages.
 
-2. GitHub Pages:
-   - Substitua o index.html pelo arquivo index.html deste pacote.
+Incluído: bootstrap inicial removido; navegação Igreja ↔ Super ADM; gestão Super ADM de status/assinatura/recurso por igreja; central ADM com Salas, Cultos/Eventos e Escalas reais; criação/edição de salas; criação e abertura/encerramento de culto; escala real básica sem dados fictícios.
 
-3. Primeiro acesso:
-   - Entre com a conta ADM já existente.
-   - No painel da igreja aparecerá o aviso para ativar o primeiro Super ADM.
-   - Clique em "Ativar meu Super ADM".
-   - A mesma conta passa a ser Super ADM da plataforma e continua ADM da igreja.
-   - Depois disso, novos logins dessa conta abrem diretamente o painel Super ADM.
-   - Use "Abrir minha igreja" para voltar ao painel da igreja.
-
-Segurança:
-- A ativação inicial só funciona enquanto não existir nenhum Super ADM ativo.
-- Só um usuário autenticado que já seja ADM ativo de uma igreja pode fazer a ativação.
+Próximo grande bloco: famílias/crianças/visitantes + check-in + QR + impressão + checkout.

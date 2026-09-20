@@ -1,21 +1,91 @@
-TAF KIDS v3.1.0 — PRIMEIRO TESTE OPERACIONAL AMPLO
+TAF KIDS v3.3.0 — 6 ITENS DO PLANO: CONFIGURAÇÕES, TOTEM, APOIO/BANHEIRO,
+RECUPERAÇÃO DE SENHA, DEVOCIONAIS, OFERTA, RELATÓRIOS E COMUNICADOS
 
 NOVO
-- Equipe & funções: cria/vincula usuário e define ADM, Recepção, Professor e Auxiliar.
-- Cultos recorrentes: único, semanal, quinzenal ou mensal, até 52 ocorrências.
-- Famílias: cadastro inicial de responsável + criança, usando as tabelas existentes.
-- Recepção/check-in: seleciona culto, criança e sala e registra entrada.
-- Escala backend ampliada com endpoint de participantes e confirmação/recusa.
-- Mantém Super ADM, salas, cultos, painel e segurança da v3.0.
+- Configurações da igreja: liga/desliga Totem, Tela de chamada, Apoio &
+  banheiro, Oferta, visitantes, exigência de QR no checkout etc. O Worker
+  aplica essas regras de verdade (ex.: sem "feature_totem" ligado, não dá
+  pra criar totem nem fazer check-in por ele).
+- Totem: ADM cria/revoga dispositivos em Configurações (token mostrado uma
+  única vez). O totem se autentica por token próprio (header X-Kiosk-Token),
+  nunca por login de usuário, e só enxerga a família de quem informar o
+  telefone do responsável — nunca lista famílias. Um token de totem não
+  acessa nenhuma rota /api/admin/* nem /api/super/*.
+  *(A tela pública/visual do totem — a "cara" que fica na tablet — ainda não
+  foi construída nesta rodada; os endpoints e o token já existem e funcionam,
+  então essa tela pode entrar numa próxima leva sem mexer em backend.)*
+- Apoio & banheiro: na Sala do Professor, os botões "Solicitar apoio" e
+  "Banheiro" agora funcionam de verdade e caem numa fila em "Apoio & banheiro"
+  (Recepção/ADM), com Assumir → Concluir.
+- Recuperação de senha: tela de login ganhou "Esqueci minha senha" completo
+  (token de uso único, 30 min de validade, revoga sessões antigas ao
+  redefinir). Sem provedor de e-mail configurado, o link ainda não é enviado
+  de verdade — fica registrado no log do Worker (console.log). Se quiser que
+  funcione de ponta a ponta, preciso que você crie uma conta num provedor
+  (Resend é o mais simples de integrar num Worker) e me passe a API key para
+  eu plugar.
+- Devocionais: ADM cadastra/edita e publica; Professor vê o devocional do
+  culto direto na tela "Minha Sala".
+- Oferta: aparece na Sala do Professor só se a igreja habilitar em
+  Configurações; ADM vê o consolidado por culto/sala em "Oferta".
+- Relatórios: frequência por culto, confirmações da equipe e ocupação de
+  sala do último culto — tudo consultado direto do D1, nada mockado.
+- Comunicados: Super ADM cria/publica; a igreja vê no Painel e pode marcar
+  como lido.
 
 IMPORTANTE
-- Esta versão ainda é para DADOS FICTÍCIOS. Não cadastre dados pessoais reais de crianças.
-- Checkout/QR de retirada ainda não foi liberado.
-- Professor/Auxiliar já têm permissão de leitura operacional no backend, mas a tela dedicada da sala fica para a próxima rodada após validarmos este fluxo.
+- Migration nova: migrations/0002_v3_3_features.sql — só CREATE TABLE IF NOT
+  EXISTS e CREATE INDEX IF NOT EXISTS, nada destrutivo, seguro rodar mais de
+  uma vez.
+- Continua ambiente de TESTE — não cadastre dados reais de crianças.
+- Checkout/QR de retirada, Etiquetas e a tela pública da Tela de chamada
+  seguem pendentes — dependem de eu enxergar o schema atual de checkins e
+  parent_calls no seu D1 antes de mexer neles (pedido em separado).
 
 PUBLICAÇÃO
-1. Não há migration nova: a v3.1 usa tabelas que já existem no schema v2.
-2. Publique worker.js e confirme /api/health = 3.1.0.
-3. No GitHub substitua index.html, sw.js, manifest.webmanifest e version.json.
-4. Ctrl+F5 uma vez.
-5. Teste na ordem: Equipe -> Sala -> Culto recorrente -> Escala -> Família fictícia -> Check-in.
+1. Rode a migration: migrations/0002_v3_3_features.sql
+2. Publique worker.js e confirme /api/health = 3.3.0
+3. No GitHub substitua index.html, sw.js, manifest.webmanifest e version.json
+4. Ctrl+F5 uma vez
+
+TESTE DE ACEITAÇÃO
+1. Configurações: como ADM, ligue "Totem" e "Apoio & banheiro", salve.
+2. Crie um totem em Configurações, copie o token mostrado.
+3. Chame POST /api/kiosk/identify e POST /api/kiosk/checkin com o header
+   X-Kiosk-Token, e confirme que funciona sem nenhum login de usuário.
+4. Desligue "Totem" nas Configurações e confirme que criar um novo totem
+   passa a devolver 403.
+5. Login como Professor escalado (v3.2): em "Minha Sala", clique "Banheiro"
+   numa criança. Como ADM/Recepção, abra "Apoio & banheiro" e veja o pedido
+   na fila; clique Assumir, depois Concluir.
+6. Como ADM, crie um devocional e publique. Login como Professor: o
+   devocional deve aparecer em "Minha Sala".
+7. Como ADM, publique um Comunicado. Login como usuário da igreja: o aviso
+   deve aparecer no Painel; ao clicar "OK, entendi", ele some e não volta.
+8. Em "Esqueci minha senha", peça a recuperação e veja o link aparecer no
+   log do Worker (wrangler tail ou painel do Cloudflare) — cole o token na
+   URL como ?reset_token=... para testar a troca de senha.
+
+
+============================================================
+v3.3.1 — CONSOLIDAÇÃO ANTES DO TESTE AMPLO
+============================================================
+- Removido CURRENT_REQUEST global do Worker; CORS usa o request da própria resposta.
+- Conferido contrato dos endpoints usados pelo index.html contra o worker.js.
+- Novo GET /api/super/schema-check, exclusivo do Super ADM, para verificar tabelas/colunas esperadas.
+- Mantida migrations/0002_v3_3_features.sql; nenhuma migration adicional é necessária nesta consolidação.
+
+ORDEM SEGURA
+1. Faça backup/export do D1.
+2. Rode migrations/0002_v3_3_features.sql no taf-kids-db.
+3. Publique worker.js.
+4. Confirme /api/health = 3.3.1.
+5. Logado como Super ADM, consulte /api/super/schema-check.
+6. Só se retornar ok=true, publique index.html, sw.js, manifest.webmanifest e version.json.
+7. Faça Ctrl+F5.
+
+LIMITES AINDA EXISTENTES
+- Recuperação de senha ainda precisa de provedor real de e-mail.
+- Totem ainda precisa da interface pública completa.
+- Checkout/QR seguro e etiquetas ainda não estão concluídos.
+- Continue usando somente dados fictícios de crianças nesta fase.

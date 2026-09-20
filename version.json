@@ -1,4 +1,5 @@
 {
-  "version": "3.1.0",
-  "build": "2026-09-19"
+  "version": "3.3.1",
+  "build": "2026-09-20",
+  "notes": "Consolidação técnica da v3.3"
 }

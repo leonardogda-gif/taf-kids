@@ -1,34 +1,21 @@
-TAF KIDS v3.0.0 — RECONSTRUÇÃO DA INTERFACE
+TAF KIDS v3.1.0 — PRIMEIRO TESTE OPERACIONAL AMPLO
 
-A v3.0 abandona o grande mockup antigo. O princípio agora é:
-SE ESTÁ CLICÁVEL, FUNCIONA. O que ainda não existe aparece desabilitado como “Em desenvolvimento”.
+NOVO
+- Equipe & funções: cria/vincula usuário e define ADM, Recepção, Professor e Auxiliar.
+- Cultos recorrentes: único, semanal, quinzenal ou mensal, até 52 ocorrências.
+- Famílias: cadastro inicial de responsável + criança, usando as tabelas existentes.
+- Recepção/check-in: seleciona culto, criança e sala e registra entrada.
+- Escala backend ampliada com endpoint de participantes e confirmação/recusa.
+- Mantém Super ADM, salas, cultos, painel e segurança da v3.0.
 
-FUNCIONAL:
-- Login/logout e restauração de sessão.
-- Alternância Super ADM <-> igreja.
-- Super ADM: visão geral, lista de igrejas, detalhe/status/assinatura, saúde da plataforma.
-- Igreja: painel real.
-- Salas: listar, criar e editar.
-- Cultos/eventos: listar, criar, abrir, encerrar e cancelar.
-- Escalas: listar e criar escala básica ligada a culto.
-- Estados vazios reais, sem Sofia Andrade ou outros dados fictícios.
-- Navegação centralizada, sem dezenas de onclick inline com IDs dinâmicos.
-- Renderização de dados usando textContent/DOM.
+IMPORTANTE
+- Esta versão ainda é para DADOS FICTÍCIOS. Não cadastre dados pessoais reais de crianças.
+- Checkout/QR de retirada ainda não foi liberado.
+- Professor/Auxiliar já têm permissão de leitura operacional no backend, mas a tela dedicada da sala fica para a próxima rodada após validarmos este fluxo.
 
-DESABILITADO E CLARAMENTE IDENTIFICADO:
-- Crianças & famílias
-- Devocionais
-- Tela de chamada
-- Configurações
-- Comunicados do Super ADM
-- Totem/etiqueta/check-in
-
-PUBLICAÇÃO:
-1. Não há nova migration obrigatória para a v3.0.
-2. Publique worker.js.
-3. Confirme /api/health = 3.0.0.
-4. No GitHub substitua index.html, sw.js, manifest.webmanifest e version.json.
-5. Faça Ctrl+F5 uma vez.
-
-SEGURANÇA:
-Mantém o hardening da v2.5.1: rotas bootstrap públicas removidas, CORS restrito, rate-limit de login, validações, church_id obrigatório, auditoria das novas operações e respostas 500 sem detail.
+PUBLICAÇÃO
+1. Não há migration nova: a v3.1 usa tabelas que já existem no schema v2.
+2. Publique worker.js e confirme /api/health = 3.1.0.
+3. No GitHub substitua index.html, sw.js, manifest.webmanifest e version.json.
+4. Ctrl+F5 uma vez.
+5. Teste na ordem: Equipe -> Sala -> Culto recorrente -> Escala -> Família fictícia -> Check-in.
